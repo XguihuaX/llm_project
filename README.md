@@ -55,9 +55,8 @@
 
   ![](doc/image/model.png)
 
-  3: 对于自定义温度的子模型：
-    
-    在命令端执行CLI:
+  3: 对于自定义温度的子模型，由于ollama不支持在generate中向ollama Api传递温度，需要在命令端执行CLI生成子模型：
+
           
           echo "FROM model_name" > Modelfile                     #model_name为父模型
           
