@@ -14,3 +14,6 @@
   5：总结。
 
 
+src主要放置了项目的.py文件，data中存放了原始数据和markdown的相关图片，doc中解释了所需要的全部库，和库ollama的布置和相关使用以及创建子模型的方法，result（cleaned_data;llama;llama2,llama2 Alab experiment）存放了各个部分的结果
+
+
