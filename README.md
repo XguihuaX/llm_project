@@ -10,7 +10,11 @@
   
   3：选择模型：选择模型llama2，llama：7b，gemma:2b进行实验。
   
-  4：消融实验：针对模型的温度和提示词设置了一系列不同的参数，通过手动标注了一定的数据结合chatgpt4后选取最佳的模型和总结未来可改进的方向。由于算力有限，消融实验只选取了前100条数据，其余实验选取了前500到前1000条数据，在手动标注少量数据和使用chatgpt进行选择后发现llama2在temp为0.1，t_prompt(treatment_prompt)为"Question:What patient treatment plan described in this text?"， a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."效果最佳。
+  4：消融实验：针对模型的温度和提示词设置了一系列不同的参数，通过手动标注了一定的数据结合chatgpt4后选取最佳的模型和总结未来可改进的方向。由于算力有限，消融实验只选取了前100条数据，其余实验选取了前500到前1000条数据，在手动标注少量数据和使用chatgpt进行选择后发现llama2在
+  
+  temp为0.1，t_prompt(treatment_prompt)为"Question:What patient treatment plan described in this text?"，
+  
+  a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."效果最佳。
   
   5：总结，缺点和改进：
 
