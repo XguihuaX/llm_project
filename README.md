@@ -41,8 +41,7 @@
 
     ollama支持的模型有
 
-    
-    ![](doc/image/model.png)
+  ![](doc/image/model.png)
 
   3: 对于自定义温度的子模型：
     
