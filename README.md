@@ -1,3 +1,4 @@
+**入门测试**
 ![这是project的整体流程](doc/image/guide_line.png)
 这是project的整体流程
 
@@ -20,6 +21,11 @@
       III:  对于模型的改进，可以在II的基础上，在一些复杂或者推断问题时，将问题喂给不同参数下的模型，再由模型总结综合生成最终回答。
 
 
+
+
+**其他**
+
+
 1:src主要放置了项目的.py文件和.ipynb文件，data中存放了原始数据和markdown的相关图片，doc中解释了所需要的全部库，和库ollama的布置和相关使用以及创建子模型的方法，result（cleaned_data;llama;llama2,llama2 Alab experiment）存放了各个部分的结果
 
 
@@ -39,7 +45,7 @@
     
     ollama run model_name
 
-    ollama支持的模型有
+  ollama支持的模型有
 
   ![](doc/image/model.png)
 
