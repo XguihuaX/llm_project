@@ -14,6 +14,33 @@
   5：总结。
 
 
-src主要放置了项目的.py文件和.ipynb文件，data中存放了原始数据和markdown的相关图片，doc中解释了所需要的全部库，和库ollama的布置和相关使用以及创建子模型的方法，result（cleaned_data;llama;llama2,llama2 Alab experiment）存放了各个部分的结果
+1:src主要放置了项目的.py文件和.ipynb文件，data中存放了原始数据和markdown的相关图片，doc中解释了所需要的全部库，和库ollama的布置和相关使用以及创建子模型的方法，result（cleaned_data;llama;llama2,llama2 Alab experiment）存放了各个部分的结果
 
+
+2:对于ollama，需要先在本地布置并下载对应预训练模型，才能正常执行代码。
+  
+  具体方法：
+  
+  1：下载ollama：
+    
+    window：https://ollama.com/download/OllamaSetup.exe
+    
+    macos： https://ollama.com/download/Ollama-darwin.zip
+   
+    linux:  curl -fsSL https://ollama.com/install.sh | sh
+
+  2: 下载对应模型：
+    
+    ollama run model_name
+
+
+  3: 对于自定义温度的子模型：
+    
+    在命令端执行CLI:
+          
+          echo "FROM model_name" > Modelfile                     #model_name为父模型
+          
+          echo "PARAMETER temperature temp" >>Modelfile          #temp为自定义温度
+          
+          ollama create sub_model_name -f Modelfile              #sub_model_name为子模型名称
 
