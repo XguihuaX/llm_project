@@ -10,13 +10,37 @@
   
   3：选择模型：选择模型llama2，llama：7b，gemma:2b进行实验。
   
-  4：设计策略：针对模型的温度[0.1,0.4,0.7]和提示词设置了一系列不同的参数，通过手动标注了一定的数据结合chatgpt4后选取最佳的模型和总结未来可改进的方向。由于算力有限，消融实验只选取了前100条数据，其余实验选取了前500到前1000条数据，在手动标注少量数据和使用chatgpt进行选择后发现llama2在
+  4：设计策略：针对模型的温度[0.1,0.4,0.7]和提示词设置了一系列不同的参数，通过手动标注了一定的数据结合chatgpt4后选取最佳的模型和总结未来可改进的方向。由于算力有限，消融实验只选取了前100条数据，其余实验选取了前500到前1000条数据，
+  
+  参数和模型的选择如下：
+
+      model_list = ['gemma:2b','llama2',  'llama_tem_0.1', 'llama_tem_0.4', 'llama_tem_0.7']
+      
+      treatment_prompts = [
+        "Question:What patient treatment plan described in this text?",
+        "Question:Identify the treatment strategy for the patient's diagnosis."
+      ]
+      
+      age_prompts = [
+        "Question:What is the patient's age based on this text?",
+        "Question:What is the patient's age based on this text? Tips: If there is a specific age mentioned in the text, just state 'The patient is X years old.' If the age is not explicit but can be inferred, state the possible age range and provide a brief                 reasoning. If it's not possible to determine, state 'Cannot determine the patient's age.'",
+        "Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."
+    ]
+  
+  
+  
+  
+  在手动标注少量数据和使用chatgpt进行选择后发现llama2在
   
   temp为0.1
   
   t_prompt(treatment_prompt)为"Question:What patient treatment plan described in this text?"
   
-  a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."效果最佳。
+  a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."情况下效果最佳。
+
+
+
+  
 
   5：优化：使用Chain of thought 对prompt进行改进，并记录每一次的结果。
 
