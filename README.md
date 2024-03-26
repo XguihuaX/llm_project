@@ -1,5 +1,5 @@
 **入门测试**
-![这是project的整体流程](doc/image/guide_line.png)
+![这是project的整体流程](doc/image/project.png)
 这是project的整体流程
 
 根据项目要求，主要做了如下步骤：
