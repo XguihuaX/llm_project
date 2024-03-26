@@ -1,68 +1,60 @@
 **入门测试**
 ![这是project的整体流程](doc/image/guide.png)
-这是project的整体流程
+This is the overall flow of the project.
 
-根据项目要求，主要做了如下步骤：
+Based on the project requirements, the following steps were primarily conducted:
 
-  1：分析数据，得出年龄（如果有）和治疗信息分布在description和transcription中， 并发现数据中存在大小写，多余空格和无关符号。
-  
-  2：数据预处理，对数据进行统一编码，小写，消除多余空格等操作。
-  
-  3：选择模型：选择模型llama2，llama：7b，gemma:2b进行实验。
-  
-  4：设计策略：针对模型的温度[0.1,0.4,0.7]和提示词设置了一系列不同的参数，通过手动标注了一定的数据结合chatgpt4后选取最佳的模型和总结未来可改进的方向。由于算力有限，消融实验只选取了前100条数据，其余实验选取了前500到前1000条数据，
-  
-  参数和模型的选择如下：
+Analyzed the data, determining that age (if present) and treatment information are distributed in the description and transcription columns, and identified the presence of case sensitivity, extra spaces, and irrelevant symbols in the data.
 
-  
+Preprocessed the data, including standardizing the encoding, converting to lowercase, and removing extra spaces.
 
-      model_list = ['gemma:2b','llama2',  'llama_tem_0.1', 'llama_tem_0.4', 'llama_tem_0.7']
-      
-      treatment_prompts = [
-        "Question:What patient treatment plan described in this text?",
-        "Question:Identify the treatment strategy for the patient's diagnosis."
-      ]
-      
-      age_prompts = [
-        "Question:What is the patient's age based on this text?",
-        "Question:What is the patient's age based on this text? Tips: If there is a specific age mentioned in the text, just state 'The patient is X years old.' If the age is not explicit but can be inferred, state the possible age range and provide a brief                 reasoning. If it's not possible to determine, state 'Cannot determine the patient's age.'",
-        "Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."
-    ]
-  
-  
-  
-    在手动标注少量数据和使用chatgpt进行选择后发现llama2在
-  
-      temp为0.1
-  
-      t_prompt(treatment_prompt)为"Question:What patient treatment plan described in this text?"
-  
-      a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."情况下效果最佳。
+Model selection: Conducted experiments with models such as llama2, llama:7b, and gemma:2b.
 
-    对于温度为0.1情况下效果比较好并不难以理解，因为两个问题均是文本提取的QA问题，除了当患者年龄需要推断时有一定的随机性，其他时候过多的多样性容易降低模型的简洁和准确性
-    
-    对于treatment_prompt中两个不同的参数，最重要的应该是plan和strategy。后者侧重于策略，使得实际回答时会加入对患者病情的分析。
+Strategy design: Set a series of different parameters for the model's temperature [0.1, 0.4, 0.7] and prompts, selected the best model and summarized future improvement directions after manually annotating some data combined with ChatGPT-4. Due to limited computational resources, the ablation experiment only selected the first 100 data entries, while other experiments selected data from the first 500 to 1000.
 
-    对于age_prompts，出现第三条参数的原因是在参数一的情况下，回答仍然有大段的推测和理由。然而，在age_prompt为参数二的情况下，即使是显而易见的答案也会被推断为无法找到准确年龄而推断出预估年龄。在去掉提示词中如specific和explicit等比较绝对的规范条件后，推断情况部分减少但仍然十分严重。
-  
+Parameter and model selection is as follows:
 
-  5：优化：使用Chain of thought 对prompt进行改进，并记录每一次的结果。
+css
+Copy code
+ model_list = ['gemma:2b','llama2',  'llama_tem_0.1', 'llama_tem_0.4', 'llama_tem_0.7']
+ 
+ treatment_prompts = [   "Question: What patient treatment plan described in this text?",   "Question: Identify the treatment strategy for the patient's diagnosis." ]
+ 
+ age_prompts = [   "Question: What is the patient's age based on this text?",   "Question: What is the patient's age based on this text? Tips: If there is a specific age mentioned in the text, just state 'The patient is X years old.' If the age is not explicit but can be inferred, state the possible age range and provide a brief                 reasoning. If it's not possible to determine, state 'Cannot determine the patient's age.'",   "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old."
+]
 
-      使用Cot方法prompt的treatment infor的llama2表现比4中最好参数的llama2要优秀，而age则不尽人意。
-      
-      在实验过程中发现，使用含有确切，精确等词的文本或者在prompt中明确允许做猜测推断的模型，即使在数据中出现明显的年龄文本，回答都倾向于给出一个年龄区间。
+After manually annotating a small amount of data and using ChatGPT for selection, it was found that llama2 performed best under the following conditions:
 
-      四版age_prompt的特征信息分别为:    
-                
-                a.要求找到‘精确’的年龄信息，最后综合信息‘估计’年龄
-                
-                b.要求收集年龄信息，最后综合信息‘估计’年龄
+scss
+Copy code
+ temp = 0.1
+ t_prompt(treatment_prompt) = "Question: What patient treatment plan described in this text?"
+ a_prompt(age_prompt) = "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old."
+It's understandable that the performance is better under a temperature of 0.1 because both questions are text extraction QA problems. Except when the patient's age needs to be inferred, which introduces some randomness, excessive diversity in other cases can reduce the model's conciseness and accuracy.
 
-                c.要求收集年龄信息，给出年龄
+For the two different parameters in treatment_prompt, the most important should be the difference between plan and strategy. The latter focuses on strategy, adding an analysis of the patient's condition to the actual answer.
 
-                d.要求收集信息，如果存在实际年龄，则直接给出年龄，如果不能，则推断出年龄。要求‘简洁’的问答问题
-      
-      然而，四个版本在面对存在直接年龄文本的回答都不尽人意，而对本身需要推断的年龄信息表现的比4中的llama2要优秀。
+For age_prompts, the third parameter appeared because, under the first parameter, the answer still contained lengthy speculation and reasoning. However, in the second parameter of age_prompt, even obvious answers would be deduced as unable to find an accurate age and thus estimated. Reducing absolute terms like specific and explicit in the prompts lessened but did not eliminate the tendency for inference.
+
+Optimization: Improved prompts using the Chain of thought method and recorded the results of each iteration.
+
+Using the Cot method, llama2's treatment information performance was better than the best parameters in section 4, while the age was not satisfactory.
+
+During the experiments, it was found that models, even when the text contains clear age information, tend to give an age range if they allow for guessing and inference in the prompts or text.
+
+The four versions of age_prompt had the following characteristics:
+
+csharp
+Copy code
+       a. Requires finding 'exact' age information, eventually 'estimating' age by synthesizing information
+       
+       b. Requires collecting age information, eventually 'estimating' age by synthesizing information
+
+       c. Requires collecting age information and giving out the age
+
+       d. Requires collecting information, giving direct age if it exists, otherwise inferring age. Requires 'concise' Q&A
+         
+However, all four versions were unsatisfactory when facing direct age text but performed better than llama2 in section 4 for inherently inferential age information.
   
   6：总结，缺点和改进：
 
