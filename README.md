@@ -18,7 +18,9 @@
   
   a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."效果最佳。
 
-  5：优化：使用Chian of thought 对prompt进行改进，并记录每一次的结果。
+  5：优化：使用Chain of thought 对prompt进行改进，并记录每一次的结果。
+
+      对Cot在几个模型上应用的思考：
   
   6：总结，缺点和改进：
 
