@@ -10,7 +10,17 @@ Based on the project requirements, the following steps were primarily conducted:
 
   3:Model selection: Conducted experiments with models such as llama2, llama:7b, and gemma:2b.
 
-  4:Strategy design: Set a series of different parameters for the model's temperature [0.1, 0.4, 0.7] and prompts, selected the best model and summarized future improvement directions after manually annotating some data combined with ChatGPT-4. Due to limited computational resources, the         ablation experiment only selected the first 100 data entries, while other experiments selected data from the first 500 to 1000.
+  4：Quantifying performance：When selecting the optimal parameters, a small amount of data has been manually annotated in order to quantify performance. The labels and 
+    answers under different parameters are then provided to ChatGPT4 for scoring based on relevance and accuracy (0-10), where higher scores indicate stronger         
+    correlation.**（Actually, it's possible to use an API for batch processing, and here I'm just demonstrating the approach to quantifying parameter performance）**
+
+
+    ![](doc/image/chat.png)
+
+    ![](doc/image/score.png)
+
+
+  5:Strategy design: Set a series of different parameters for the model's temperature [0.1, 0.4, 0.7] and prompts, selected the best model and summarized future improvement directions after manually annotating some data combined with ChatGPT-4. Due to limited computational resources, the         ablation experiment only selected the first 100 data entries, while other experiments selected data from the first 500 to 1000.
 
     Parameter and model selection is as follows:
 
@@ -42,7 +52,7 @@ After manually annotating a small amount of data and using ChatGPT for selection
 
   For age_prompts, the third parameter appeared because, under the first parameter, the answer still contained lengthy speculation and reasoning. However, in the second parameter of age_prompt, even obvious answers would be deduced as unable to find an accurate age and thus estimated.           Reducing absolute terms like specific and explicit in the prompts lessened but did not eliminate the tendency for inference.
 
-  5:Optimization: Improved prompts using the Chain of thought method and recorded the results of each iteration.
+  6:Optimization: Improved prompts using the Chain of thought method and recorded the results of each iteration.
 
   Using the Cot method, llama2's treatment information performance was better than the best parameters in section 4, while the age was not satisfactory.
 
@@ -61,7 +71,7 @@ After manually annotating a small amount of data and using ChatGPT for selection
          
   However, all four versions were unsatisfactory when facing direct age text but performed better than llama2 in section 4 for inherently inferential age information.
   
-  6:Summary, Drawbacks, and Improvements:
+  7:Summary, Drawbacks, and Improvements:
 
       I. Due to limited computational power and time, many datasets were not fully tested. The ablation experiment only considered the top 10 results from all combinations.
 
