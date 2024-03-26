@@ -15,9 +15,9 @@ Based on the project requirements, the following steps were primarily conducted:
     correlation.**（Actually, it's possible to use an API for batch processing, and here I'm just demonstrating the approach to quantifying parameter performance）**
 
 
-    ![](doc/image/chat.png)
+![](doc/image/chat.png)
 
-    ![](doc/image/score.png)
+![](doc/image/score.png)
 
 
   5:Strategy design: Set a series of different parameters for the model's temperature [0.1, 0.4, 0.7] and prompts, selected the best model and summarized future improvement directions after manually annotating some data combined with ChatGPT-4. Due to limited computational resources, the         ablation experiment only selected the first 100 data entries, while other experiments selected data from the first 500 to 1000.
