@@ -17,8 +17,10 @@
   t_prompt(treatment_prompt)为"Question:What patient treatment plan described in this text?"
   
   a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."效果最佳。
+
+  5：优化：使用Chian of thought 对prompt进行改进，并记录每一次的结果。
   
-  5：总结，缺点和改进：
+  6：总结，缺点和改进：
 
       I:    由于算力和时间有限，很多数据没有进行完成的测试，消融实验的实际对比也只选取了所有组合前10条结果进行。
       
