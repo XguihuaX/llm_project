@@ -36,13 +36,13 @@ After manually annotating a small amount of data and using ChatGPT for selection
        a_prompt(age_prompt) = "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old."
          It's understandable that the performance is better under a temperature of 0.1 because both questions are text extraction QA problems. Except when the patient's age needs to be inferred, which introduces some randomness, excessive diversity in other cases can reduce the model's                conciseness and accuracy.
 
-    For the two different parameters in treatment_prompt, the most important should be the difference between plan and strategy. The latter focuses on strategy, adding an analysis of the patient's condition to the actual answer.
+  For the two different parameters in treatment_prompt, the most important should be the difference between plan and strategy. The latter focuses on strategy, adding an analysis of the patient's condition to the actual answer.
 
-    For age_prompts, the third parameter appeared because, under the first parameter, the answer still contained lengthy speculation and reasoning. However, in the second parameter of age_prompt, even obvious answers would be deduced as unable to find an accurate age and thus estimated.           Reducing absolute terms like specific and explicit in the prompts lessened but did not eliminate the tendency for inference.
+  For age_prompts, the third parameter appeared because, under the first parameter, the answer still contained lengthy speculation and reasoning. However, in the second parameter of age_prompt, even obvious answers would be deduced as unable to find an accurate age and thus estimated.           Reducing absolute terms like specific and explicit in the prompts lessened but did not eliminate the tendency for inference.
 
   5:Optimization: Improved prompts using the Chain of thought method and recorded the results of each iteration.
 
-    Using the Cot method, llama2's treatment information performance was better than the best parameters in section 4, while the age was not satisfactory.
+  Using the Cot method, llama2's treatment information performance was better than the best parameters in section 4, while the age was not satisfactory.
 
     During the experiments, it was found that models, even when the text contains clear age information, tend to give an age range if they allow for guessing and inference in the prompts or text.
 
@@ -57,7 +57,7 @@ After manually annotating a small amount of data and using ChatGPT for selection
 
        d. Requires collecting information, giving direct age if it exists, otherwise inferring age. Requires 'concise' Q&A
          
-    However, all four versions were unsatisfactory when facing direct age text but performed better than llama2 in section 4 for inherently inferential age information.
+  However, all four versions were unsatisfactory when facing direct age text but performed better than llama2 in section 4 for inherently inferential age information.
   
   6:Summary, Drawbacks, and Improvements:
 
