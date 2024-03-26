@@ -26,7 +26,7 @@ Based on the project requirements, the following steps were primarily conducted:
                         
                         "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old." ]
 
-    After manually annotating a small amount of data and using ChatGPT for selection, it was found that llama2 performed best under the following conditions:
+After manually annotating a small amount of data and using ChatGPT for selection, it was found that llama2 performed best under the following conditions:
 
 
        temp = 0.1
