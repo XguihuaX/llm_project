@@ -31,17 +31,19 @@
   
   
   
+    在手动标注少量数据和使用chatgpt进行选择后发现llama2在
   
-  在手动标注少量数据和使用chatgpt进行选择后发现llama2在
+      temp为0.1
   
-  temp为0.1
+      t_prompt(treatment_prompt)为"Question:What patient treatment plan described in this text?"
   
-  t_prompt(treatment_prompt)为"Question:What patient treatment plan described in this text?"
-  
-  a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."情况下效果最佳。
+      a_prompt(age_prompt)为"Question:What is the patient's age based on this text? tip:Please answer very concisely.example:the patient is 23 years old."情况下效果最佳。
 
+    对于温度为0.1情况下效果比较好并不难以理解，因为两个问题均是文本提取的QA问题，除了当患者年龄需要推断时有一定的随机性，其他时候过多的多样性容易降低模型的简洁和准确性
+    
+    对于treatment_prompt中两个不同的参数，最重要的应该是plan和strategy。后者侧重于策略，使得实际回答时会加入对患者病情的分析。
 
-
+    对于age_prompts，出现第三条参数的原因是在参数一的情况下，回答仍然有大段的推测和理由。然而，在age_prompt为参数二的情况下，即使是显而易见的答案也会被推断为无法找到准确年龄而推断出预估年龄。在去掉提示词中如specific和explicit等比较绝对的规范条件后，推断情况部分减少但仍然十分严重。
   
 
   5：优化：使用Chain of thought 对prompt进行改进，并记录每一次的结果。
