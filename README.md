@@ -4,31 +4,32 @@ This is the overall flow of the project.
 
 Based on the project requirements, the following steps were primarily conducted:
 
-Analyzed the data, determining that age (if present) and treatment information are distributed in the description and transcription columns, and identified the presence of case sensitivity, extra spaces, and irrelevant symbols in the data.
+  1:Analyzed the data, determining that age (if present) and treatment information are distributed in the description and transcription columns, and identified the presence of case sensitivity, extra spaces, and irrelevant symbols in the data.
 
-Preprocessed the data, including standardizing the encoding, converting to lowercase, and removing extra spaces.
+  2:Preprocessed the data, including standardizing the encoding, converting to lowercase, and removing extra spaces.
 
-Model selection: Conducted experiments with models such as llama2, llama:7b, and gemma:2b.
+  3:Model selection: Conducted experiments with models such as llama2, llama:7b, and gemma:2b.
 
-Strategy design: Set a series of different parameters for the model's temperature [0.1, 0.4, 0.7] and prompts, selected the best model and summarized future improvement directions after manually annotating some data combined with ChatGPT-4. Due to limited computational resources, the ablation experiment only selected the first 100 data entries, while other experiments selected data from the first 500 to 1000.
+  4:Strategy design: Set a series of different parameters for the model's temperature [0.1, 0.4, 0.7] and prompts, selected the best model and summarized future improvement directions after manually annotating some data combined with ChatGPT-4. Due to limited computational resources, the         ablation experiment only selected the first 100 data entries, while other experiments selected data from the first 500 to 1000.
 
-Parameter and model selection is as follows:
+  Parameter and model selection is as follows:
 
-
-  model_list = ['gemma:2b','llama2',  'llama_tem_0.1', 'llama_tem_0.4', 'llama_tem_0.7']
+      model_list = ['gemma:2b','llama2',  'llama_tem_0.1', 'llama_tem_0.4', 'llama_tem_0.7']
  
-  treatment_prompts = [   "Question: What patient treatment plan described in this text?",   "Question: Identify the treatment strategy for the patient's diagnosis." ]
+      treatment_prompts = [   "Question: What patient treatment plan described in this text?",   "Question: Identify the treatment strategy for the patient's diagnosis." ]
  
-  age_prompts = [   "Question: What is the patient's age based on this text?",   "Question: What is the patient's age based on this text? Tips: If there is a specific age mentioned in the text, just state 'The patient is X years old.' If the age is not explicit but can be inferred, state the possible age range and provide a brief                 reasoning. If it's not possible to determine, state 'Cannot determine the patient's age.'",   "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old."
-]
+      age_prompts = [   "Question: What is the patient's age based on this text?",   "Question: What is the patient's age based on this text? Tips: If there is a specific age mentioned in the text, just state 'The patient is X years old.' If the age is not explicit but can be inferred, state                         the possible age range and provide a brief                 reasoning. If it's not possible to determine, state 'Cannot determine the patient's age.'",   "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is                         23 years old."
+                    ]
 
-After manually annotating a small amount of data and using ChatGPT for selection, it was found that llama2 performed best under the following conditions:
+  After manually annotating a small amount of data and using ChatGPT for selection, it was found that llama2 performed best under the following conditions:
 
 
- temp = 0.1
- t_prompt(treatment_prompt) = "Question: What patient treatment plan described in this text?"
- a_prompt(age_prompt) = "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old."
-It's understandable that the performance is better under a temperature of 0.1 because both questions are text extraction QA problems. Except when the patient's age needs to be inferred, which introduces some randomness, excessive diversity in other cases can reduce the model's conciseness and accuracy.
+       temp = 0.1
+       
+       t_prompt(treatment_prompt) = "Question: What patient treatment plan described in this text?"
+       
+       a_prompt(age_prompt) = "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old."
+         It's understandable that the performance is better under a temperature of 0.1 because both questions are text extraction QA problems. Except when the patient's age needs to be inferred, which introduces some randomness, excessive diversity in other cases can reduce the model's                conciseness and accuracy.
 
 For the two different parameters in treatment_prompt, the most important should be the difference between plan and strategy. The latter focuses on strategy, adding an analysis of the patient's condition to the actual answer.
 
@@ -42,8 +43,7 @@ During the experiments, it was found that models, even when the text contains cl
 
 The four versions of age_prompt had the following characteristics:
 
-csharp
-Copy code
+
        a. Requires finding 'exact' age information, eventually 'estimating' age by synthesizing information
        
        b. Requires collecting age information, eventually 'estimating' age by synthesizing information
