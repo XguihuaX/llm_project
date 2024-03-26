@@ -88,7 +88,7 @@ Download the corresponding model:
     
     ollama supports models like those shown in the image below.
 
-     ![](doc/image/model.png)
+  ![](doc/image/model.png)
 
   3:For creating sub-models with custom temperatures, as ollama does not support passing temperature to the ollama API in generate, execute the following CLI commands to generate a sub-model:
 
