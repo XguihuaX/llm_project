@@ -71,6 +71,9 @@ After manually annotating a small amount of data and using ChatGPT for selection
 
 
 
+
+
+
 **Others**
 
   1:The src mainly contains the project's .py files and .ipynb files, data contains the original data and related markdown images, and doc explains all the required libraries, the setup and use of the ollama library, and the method for creating sub-models. The result directory (cleaned_data;      llama; llama2, llama2 Alab experiment) stores the results of various parts.
