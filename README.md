@@ -1,5 +1,5 @@
 **入门测试**
-![这是project的整体流程](doc/image/guide.png)
+![这是project的整体流程](doc/image/guide_line.png)
 This is the overall flow of the project.
 
 Based on the project requirements, the following steps were primarily conducted:
