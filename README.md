@@ -34,7 +34,9 @@ After manually annotating a small amount of data and using ChatGPT for selection
        t_prompt(treatment_prompt) = "Question: What patient treatment plan described in this text?"
        
        a_prompt(age_prompt) = "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old."
-         It's understandable that the performance is better under a temperature of 0.1 because both questions are text extraction QA problems. Except when the patient's age needs to be inferred, which introduces some randomness, excessive diversity in other cases can reduce the model's                conciseness and accuracy.
+        
+         
+  It's understandable that the performance is better under a temperature of 0.1 because both questions are text extraction QA problems. Except when the patient's age needs to be inferred, which introduces some randomness, excessive diversity in other cases can reduce the model's                conciseness and accuracy.
 
   For the two different parameters in treatment_prompt, the most important should be the difference between plan and strategy. The latter focuses on strategy, adding an analysis of the patient's condition to the actual answer.
 
