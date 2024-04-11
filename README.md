@@ -1,4 +1,4 @@
-**入门测试**
+**project**
 ![这是project的整体流程](doc/image/guide_line.png)
 This is the overall flow of the project.
 
