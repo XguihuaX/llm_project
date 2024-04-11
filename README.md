@@ -10,7 +10,7 @@ Based on the project requirements, the following steps were primarily conducted:
 
   3:Model selection: Conducted experiments with models such as llama2, llama:7b, and gemma:2b.
 
-  4：Quantifying performance：When selecting the optimal parameters, a small amount of data has been manually annotated in order to quantify performance. The labels and 
+  4：Quantifying performance:When selecting the optimal parameters, a small amount of data has been manually annotated in order to quantify performance. The labels and 
     answers under different parameters are then provided to ChatGPT4 for scoring based on relevance and accuracy (0-10), where higher scores indicate stronger         
     correlation.**（Actually, it's possible to use an API for batch processing, and here I'm just demonstrating the approach to quantifying parameter performance）**
 
@@ -20,9 +20,9 @@ Based on the project requirements, the following steps were primarily conducted:
 ![](doc/image/score.png)
 
 
-  5:Strategy design: Set a series of different parameters for the model's temperature [0.1, 0.4, 0.7] and prompts, selected the best model and summarized future improvement directions after manually annotating some data combined with ChatGPT-4. Due to limited computational resources, the         ablation experiment only selected the first 100 data entries, while other experiments selected data from the first 500 to 1000.
+  5:Strategy design: Set a series of different parameters for the model's temperature [0.1, 0.4, 0.7] and prompts, select the best model, and summarize future improvement directions after manually annotating some data combined with ChatGPT-4. Due to limited computational resources, the         ablation experiment only selected the first 100 data entries, while other experiments selected data from the first 500 to 1000.
 
-    Parameter and model selection is as follows:
+    The parameter and model selection is as follows:
 
       model_list = ['gemma:2b','llama2',  'llama_tem_0.1', 'llama_tem_0.4', 'llama_tem_0.7']
  
@@ -46,7 +46,7 @@ After manually annotating a small amount of data and using ChatGPT for selection
        a_prompt(age_prompt) = "Question: What is the patient's age based on this text? tip: Please answer very concisely. Example: the patient is 23 years old."
         
          
-  It's understandable that the performance is better under a temperature of 0.1 because both questions are text extraction QA problems. Except when the patient's age needs to be inferred, which introduces some randomness, excessive diversity in other cases can reduce the model's                conciseness and accuracy.
+  understandably, the performance is better under a temperature of 0.1 because both questions are text extraction QA problems. Except when the patient's age needs to be inferred, which introduces some randomness, excessive diversity in other cases can reduce the model's                conciseness and accuracy.
 
   For the two different parameters in treatment_prompt, the most important should be the difference between plan and strategy. The latter focuses on strategy, adding an analysis of the patient's condition to the actual answer.
 
@@ -75,9 +75,9 @@ After manually annotating a small amount of data and using ChatGPT for selection
 
       I. Due to limited computational power and time, many datasets were not fully tested. The ablation experiment only considered the top 10 results from all combinations.
 
-      II. For the selection of combinations, a better method would be to write an automatic comparison function that refeeds the experimental results to the baseline model or other well-performing models, incorporating restrictions on the conditions for good models, allowing the model to               self-select. The author manually extracted labels from a small dataset for self-comparison and also fed it to ChatGPT-4 with restrictive conditions for judgment. Alternatively, the ROUGE score could be used for evaluation.
+      II. For the selection of combinations, a better method would be to write an automatic comparison function that refeeds the experimental results to the baseline model or other well-performing models, incorporating restrictions on the conditions for good models, and allowing the model to self-select. The author manually extracted labels from a small dataset for self-comparison and fed it to ChatGPT-4 with restrictive conditions for judgment. Alternatively, the ROUGE score could be used for evaluation.
 
-      III. For model improvement, based on point II, for complex or inferential questions, the questions could be fed to models with different parameters, and then the responses could be sent back to the baseline model for a comprehensive summary and final answer formulation.
+      III. For model improvement, based on point II, for complex or inferential questions, the questions could be fed to models with different parameters, the responses could be sent back to the baseline model for a comprehensive summary and final answer formulation.
 
       IV. Chain of thought (Cot) has advantages in information summarization and inference over traditional prompts. However, while Cot performs well when facing complex or inferential information needs, it tends to be conservative in situations where answers can be directly extracted from the text.
 
@@ -88,13 +88,13 @@ After manually annotating a small amount of data and using ChatGPT for selection
 
 **Others**
 
-  1:The src mainly contains the project's .py files and .ipynb files, data contains the original data and related markdown images, and doc explains all the required libraries, the setup and use of the ollama library, and the method for creating sub-models. The result directory (cleaned_data;      llama; llama2, llama2 Alab experiment) stores the results of various parts.
+  1 The src mainly contains the project's .py files and .ipynb files, data contains the original data and related markdown images, and the doc explains all the required libraries, the setup and use of the ollama library, and the method for creating sub-models. The result directory (cleaned_data;      llama; llama2, llama2 Alab experiment) stores the results of various parts.
 
-  2:For ollama, the corresponding pre-trained models must be set up and downloaded locally before the code can be executed. For more usage of ollama, see the original ollama project: ollama GitHub.
+  2 For Ollama, the corresponding pre-trained models must be set up and downloaded locally before execution. For more usage of Ollama, see the original Ollama project: ollama GitHub.
 
     methods:
 
-    I:Download ollama:
+    I Download Ollama:
 
       Windows: OllamaSetup.exe
       
@@ -104,22 +104,22 @@ After manually annotating a small amount of data and using ChatGPT for selection
       
 Download the corresponding model:
 
-    Execute ollama run model_name
+    Execute Ollama run model_name
     
-    ollama supports models like those shown in the image below.
+    Ollama supports models like those shown in the image below.
 
-model list is shown as followed:
+model list is shown as follows:
 
   ![](doc/image/model.png)
 
-  3:For creating sub-models with custom temperatures, as ollama does not support passing temperature to the ollama API in generate, execute the following CLI commands to generate a sub-model:
+  3 For creating sub-models with custom temperatures, as Ollama does not support passing temperature to the its API in generate, execute the following CLI commands to generate a sub-model:
 
 
     echo "FROM model_name" > Modelfile  # model_name is the parent model
     
     echo "PARAMETER temperature temp" >> Modelfile  # temp is the custom temperature
     
-    ollama create sub_model_name -f Modelfile  # sub_model_name is the sub-model name
+    Ollama create sub_model_name -f Modelfile  # sub_model_name is the sub-model name
 
 Success in creating a personalized sub-model is indicated as shown below:
   ![](doc/image/create_sub_model.png)
